@@ -1,0 +1,29 @@
+PODS:
+  - ArcGIS-Runtime-SDK-iOS (100.9)
+  - GoogleMaps (4.0.0):
+    - GoogleMaps/Maps (= 4.0.0)
+  - GoogleMaps/Base (4.0.0)
+  - GoogleMaps/Maps (4.0.0):
+    - GoogleMaps/Base
+  - GooglePlaces (4.0.0):
+    - GoogleMaps/Base (= 4.0.0)
+
+DEPENDENCIES:
+  - ArcGIS-Runtime-SDK-iOS (= 100.9)
+  - GoogleMaps (~> 4.0.0)
+  - GooglePlaces (~> 4.0.0)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - ArcGIS-Runtime-SDK-iOS
+    - GoogleMaps
+    - GooglePlaces
+
+SPEC CHECKSUMS:
+  ArcGIS-Runtime-SDK-iOS: 49813cad93d11e611398d253f486b1d49dc7276f
+  GoogleMaps: b7f7fc569a9b354a3af0d9729dbec40957b7d41e
+  GooglePlaces: ca8d4aba09ba79e0a829cf1dca03a41de6a09016
+
+PODFILE CHECKSUM: b48af584f330fe961d1c9ec5880983c1da9f9350
+
+COCOAPODS: 1.9.1
