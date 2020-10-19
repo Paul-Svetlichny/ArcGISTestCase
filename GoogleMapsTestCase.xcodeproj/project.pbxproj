@@ -19,9 +19,9 @@
 		E8F36E4F253C550800115D6D /* MapTypesConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F36E4E253C550800115D6D /* MapTypesConverter.swift */; };
 		E8F36E5E253CBB6000115D6D /* FoodPlace+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F36E5B253CBB6000115D6D /* FoodPlace+CoreDataProperties.swift */; };
 		E8F36E74253CC96700115D6D /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F36E73253CC96700115D6D /* CoreDataManager.swift */; };
-		E8F36E81253D96F700115D6D /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F36E80253D96F700115D6D /* Keys.swift */; };
 		E8F36E84253D989000115D6D /* FoodPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F36E83253D989000115D6D /* FoodPlaceViewController.swift */; };
 		E8F36E89253D98CB00115D6D /* FoodPlace.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8F36E88253D98CB00115D6D /* FoodPlace.storyboard */; };
+		E8F36E96253D9D5300115D6D /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F36E95253D9D5300115D6D /* Keys.swift */; };
 		F56B58FC79F455DE54F75005 /* Pods_GoogleMapsTestCase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BA873F3823722BA7B50B7B6 /* Pods_GoogleMapsTestCase.framework */; };
 /* End PBXBuildFile section */
 
@@ -42,9 +42,9 @@
 		E8F36E4E253C550800115D6D /* MapTypesConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTypesConverter.swift; sourceTree = "<group>"; };
 		E8F36E5B253CBB6000115D6D /* FoodPlace+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "FoodPlace+CoreDataProperties.swift"; path = "/Users/psvetlichny/Documents/Test Cases/GoogleMapsTestCase/GoogleMapsTestCase/Data Model/FoodPlace+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
 		E8F36E73253CC96700115D6D /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
-		E8F36E80253D96F700115D6D /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		E8F36E83253D989000115D6D /* FoodPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodPlaceViewController.swift; sourceTree = "<group>"; };
 		E8F36E88253D98CB00115D6D /* FoodPlace.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FoodPlace.storyboard; sourceTree = "<group>"; };
+		E8F36E95253D9D5300115D6D /* Keys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Keys.swift; path = GoogleMapsTestCase/Keys.swift; sourceTree = SOURCE_ROOT; };
 		ECEA3CCC437DAF60C17075A7 /* Pods-GoogleMapsTestCase.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoogleMapsTestCase.debug.xcconfig"; path = "Target Support Files/Pods-GoogleMapsTestCase/Pods-GoogleMapsTestCase.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -98,7 +98,7 @@
 		E81ACBC4253AFEC0007DACF7 /* GoogleMapsTestCase */ = {
 			isa = PBXGroup;
 			children = (
-				E8F36E7F253D96EC00115D6D /* Sensitive */,
+				E8F36E95253D9D5300115D6D /* Keys.swift */,
 				E8F36E72253CC95A00115D6D /* Core Data */,
 				E8F36E51253C9A2400115D6D /* Data Model */,
 				E8F36E4D253C54FA00115D6D /* Converter */,
@@ -146,14 +146,6 @@
 				E8F36E73253CC96700115D6D /* CoreDataManager.swift */,
 			);
 			path = "Core Data";
-			sourceTree = "<group>";
-		};
-		E8F36E7F253D96EC00115D6D /* Sensitive */ = {
-			isa = PBXGroup;
-			children = (
-				E8F36E80253D96F700115D6D /* Keys.swift */,
-			);
-			path = Sensitive;
 			sourceTree = "<group>";
 		};
 		E8F36E86253D989900115D6D /* Map */ = {
@@ -308,6 +300,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E8F36E84253D989000115D6D /* FoodPlaceViewController.swift in Sources */,
+				E8F36E96253D9D5300115D6D /* Keys.swift in Sources */,
 				E81ACBCA253AFEC0007DACF7 /* ViewController.swift in Sources */,
 				E8F36E4F253C550800115D6D /* MapTypesConverter.swift in Sources */,
 				E81ACBD0253AFEC0007DACF7 /* GoogleMapsTestCase.xcdatamodeld in Sources */,
@@ -317,7 +310,6 @@
 				E8F36E74253CC96700115D6D /* CoreDataManager.swift in Sources */,
 				E81ACBEE253C4E9C007DACF7 /* ArcGISCoordinator.swift in Sources */,
 				E81ACBC8253AFEC0007DACF7 /* SceneDelegate.swift in Sources */,
-				E8F36E81253D96F700115D6D /* Keys.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
