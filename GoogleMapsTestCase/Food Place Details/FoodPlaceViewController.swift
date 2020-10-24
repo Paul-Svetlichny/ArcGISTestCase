@@ -28,9 +28,9 @@ class FoodPlaceViewController: UIViewController {
         addressLabel.text = place?.address
         phoneLabel.text = place?.phone
         
-        if let location = locationManager?.location {
-            let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,
-                                                  longitude: location.coordinate.longitude,
+        if let coordinate = place?.coordinate() {
+            let camera = GMSCameraPosition.camera(withLatitude: coordinate.latitude,
+                                                  longitude: coordinate.longitude,
                                                   zoom: 14)
             mapView = GMSMapView.map(withFrame: mapLayerView.bounds, camera: camera)
             

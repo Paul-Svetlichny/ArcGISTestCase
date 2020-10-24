@@ -27,6 +27,7 @@ class ViewController: UIViewController {
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>!
     
     var markers = [String: GMSMarker]()
+    var selectedMarker: GMSMarker?
     
     var isInitialLoad = true
     
@@ -86,7 +87,7 @@ class ViewController: UIViewController {
 extension ViewController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, idleAt cameraPosition: GMSCameraPosition) {
         if !isInitialLoad {
-            self.coreDataManager.removeAll()
+            self.coreDataManager.removeAll(excluding: selectedMarker?.title)
 
             coordinator?.findPlaces(at: cameraPosition.target) { [weak self] (places, error) in
                 self?.coreDataManager.saveContext()
@@ -107,7 +108,15 @@ extension ViewController: GMSMapViewDelegate {
     }
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
-//        Move to details
+        if let place = coreDataManager.place(with: marker.title) {
+            openDetailsViewController(with: place)
+        }
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        self.selectedMarker = marker
+        
+        return false
     }
 }
 
@@ -118,13 +127,7 @@ extension ViewController: UITableViewDelegate {
             return
         }
 
-        let storyboard = UIStoryboard(name: "FoodPlace", bundle: nil)
-        if let controller = storyboard.instantiateViewController(withIdentifier: "FoodPlaceViewController") as? FoodPlaceViewController {
-            controller.place = place
-            controller.locationManager = self.locationManager
-            
-            self.navigationController?.pushViewController(controller, animated: true)
-        }
+        self.openDetailsViewController(with: place)
     }
 }
 
@@ -280,7 +283,22 @@ extension ViewController {
         }
         
         if let marker = markers[name] {
-            marker.map = nil
+            if marker != selectedMarker {
+                marker.map = nil
+            }
+        }
+    }
+}
+
+//  MARK: - Navigation
+extension ViewController {
+    func openDetailsViewController(with place: FoodPlace) {
+        let storyboard = UIStoryboard(name: "FoodPlace", bundle: nil)
+        if let controller = storyboard.instantiateViewController(withIdentifier: "FoodPlaceViewController") as? FoodPlaceViewController {
+            controller.place = place
+            controller.locationManager = self.locationManager
+            
+            self.navigationController?.pushViewController(controller, animated: true)
         }
     }
 }
