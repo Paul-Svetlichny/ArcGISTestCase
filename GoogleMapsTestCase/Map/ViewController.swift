@@ -56,6 +56,12 @@ class ViewController: UIViewController {
         initLocationManager()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+        
     func initLocationManager() {
         locationManager = CLLocationManager()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -108,7 +114,17 @@ extension ViewController: GMSMapViewDelegate {
 //  MARK: - UITableView Delegate
 extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        Move to Food Place details
+        guard let place = self.fetchedResultsController?.object(at: indexPath) as? FoodPlace else {
+            return
+        }
+
+        let storyboard = UIStoryboard(name: "FoodPlace", bundle: nil)
+        if let controller = storyboard.instantiateViewController(withIdentifier: "FoodPlaceViewController") as? FoodPlaceViewController {
+            controller.place = place
+            controller.locationManager = self.locationManager
+            
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
     }
 }
 

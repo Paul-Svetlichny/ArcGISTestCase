@@ -20,6 +20,7 @@ public class FoodPlace: NSManagedObject {
     @NSManaged public var longitude: Double
     @NSManaged public var name: String?
     @NSManaged public var address: String?
+    @NSManaged public var phone: String?
 
     func coordinate() -> CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude:self.latitude, longitude:self.longitude)

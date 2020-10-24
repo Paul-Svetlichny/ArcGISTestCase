@@ -27,7 +27,7 @@ class ArcGISFetcher {
         let parameters: AGSGeocodeParameters = {
             let geocodeParameters = AGSGeocodeParameters()
             geocodeParameters.maxResults = 20
-            geocodeParameters.resultAttributeNames.append(contentsOf: ["Place_addr", "PlaceName"])
+            geocodeParameters.resultAttributeNames.append(contentsOf: ["*"])
             geocodeParameters.preferredSearchLocation = centerPoint
             geocodeParameters.categories = ["food"]
             return geocodeParameters

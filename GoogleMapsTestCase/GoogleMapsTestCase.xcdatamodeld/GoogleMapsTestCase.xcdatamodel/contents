@@ -5,8 +5,9 @@
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="phone" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="FoodPlace" positionX="-63" positionY="-18" width="128" height="103"/>
+        <element name="FoodPlace" positionX="-63" positionY="-18" width="128" height="118"/>
     </elements>
 </model>

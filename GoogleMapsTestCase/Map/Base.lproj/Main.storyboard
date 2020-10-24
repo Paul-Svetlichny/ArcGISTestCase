@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="f5V-bj-uRJ">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Map-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="GoogleMapsTestCase" customModuleProvider="target" sceneMemberID="viewController">
@@ -54,7 +54,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="447.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XF3-Uk-8l7">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XF3-Uk-8l7" userLabel="Separator View">
                                 <rect key="frame" x="0.0" y="447.5" width="414" height="1"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
@@ -69,15 +69,16 @@
                             <constraint firstItem="XF3-Uk-8l7" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="I7b-II-IXu"/>
                             <constraint firstItem="XF3-Uk-8l7" firstAttribute="top" secondItem="wps-Yc-FKd" secondAttribute="bottom" id="JYU-pw-faX"/>
                             <constraint firstItem="wps-Yc-FKd" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Nfw-TO-8Re"/>
+                            <constraint firstItem="wps-Yc-FKd" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="ake-Si-Ubs"/>
                             <constraint firstItem="oOf-0J-Ngp" firstAttribute="top" secondItem="XF3-Uk-8l7" secondAttribute="bottom" id="eFi-tH-QZy"/>
                             <constraint firstAttribute="bottom" secondItem="oOf-0J-Ngp" secondAttribute="bottom" id="iet-d1-xfE"/>
-                            <constraint firstItem="wps-Yc-FKd" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="kJR-9Y-YuM"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="XF3-Uk-8l7" secondAttribute="trailing" id="mQ2-pK-Atq"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="oOf-0J-Ngp" secondAttribute="trailing" id="tHA-s1-CRH"/>
                             <constraint firstItem="oOf-0J-Ngp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="tpY-ZA-Ens"/>
                             <constraint firstItem="XF3-Uk-8l7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="uw5-EX-aMU"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Map" id="sFK-ih-nyk"/>
                     <connections>
                         <outlet property="mapLayerView" destination="wps-Yc-FKd" id="Wtz-sA-OXE"/>
                         <outlet property="tableView" destination="oOf-0J-Ngp" id="X56-mh-mLZ"/>
@@ -85,7 +86,24 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-172" y="58"/>
+            <point key="canvasLocation" x="737.68115942028987" y="57.589285714285708"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="cea-Mg-X2T">
+            <objects>
+                <navigationController navigationBarHidden="YES" id="f5V-bj-uRJ" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="aeS-R9-tN1">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="3Gl-cf-gci"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jyP-uk-AAh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-172.46376811594203" y="57.589285714285708"/>
         </scene>
     </scenes>
     <resources>

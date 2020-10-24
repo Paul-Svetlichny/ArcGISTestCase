@@ -16,20 +16,24 @@ class MapTypesConverter {
     static func foodPlace(from: AGSGeocodeResult, in context: NSManagedObjectContext) -> FoodPlace? {
         let name = from.label
         
-        guard let address = from.attributes?["PlaceName"] as? String else {
+        guard let address = from.attributes?["Place_addr"] as? String else {
             return nil
         }
         
         guard let coordinate = from.displayLocation?.toCLLocationCoordinate2D() else {
             return nil
         }
-
+        
         let place = NSEntityDescription.insertNewObject(forEntityName: "FoodPlace", into: context) as! FoodPlace
 
         place.address = address
         place.name = name
         place.latitude = coordinate.latitude
         place.longitude = coordinate.longitude
+
+        if let phone = from.attributes?["Phone"] as? String {
+            place.phone = phone
+        }
 
         return place
     }
