@@ -18,8 +18,6 @@ class ViewController: UIViewController {
     var locationManager: CLLocationManager!
     var currentLocation: CLLocation?
     var mapView: GMSMapView?
-    var preciseLocationZoomLevel: Float = 14.0
-    var approximateLocationZoomLevel: Float = 14.0
 
     var coreDataManager = CoreDataManager()
     var coordinator: ArcGISCoordinator?
@@ -32,8 +30,7 @@ class ViewController: UIViewController {
     var isInitialLoad = true
     
     func initializeFetchedResultsController() {
-        
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "FoodPlace")
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: FoodPlace.entityName)
         let placeName = NSSortDescriptor(key: "name", ascending: true)
         request.sortDescriptors = [placeName]
         
@@ -43,8 +40,8 @@ class ViewController: UIViewController {
         
         do {
             try fetchedResultsController.performFetch()
-        } catch {
-            fatalError("Failed to initialize FetchedResultsController: \(error)")
+        } catch let error {
+            NotificationPresenter.init().show(.alert, in: self, title: "Setup Error", message: error.localizedDescription, actions: nil)
         }
     }
 
@@ -134,13 +131,14 @@ extension ViewController: UITableViewDelegate {
 //  MARK: - UITableView Data Source
 extension ViewController: UITableViewDataSource {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return fetchedResultsController.sections!.count
+        return fetchedResultsController.sections?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let sections = fetchedResultsController.sections else {
-            fatalError("No sections in fetchedResultsController")
+            return 0
         }
+        
         let sectionInfo = sections[section]
         return sectionInfo.numberOfObjects
     }
@@ -149,7 +147,7 @@ extension ViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "placeCell", for: indexPath)
         
         guard let place = self.fetchedResultsController?.object(at: indexPath) as? FoodPlace else {
-            fatalError("Attempt to configure cell without a managed object")
+            return UITableViewCell()
         }
         
         cell.textLabel?.text = place.name
@@ -163,16 +161,18 @@ extension ViewController: UITableViewDataSource {
 extension ViewController: CLLocationManagerDelegate {
     // Handle incoming location events.
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let location: CLLocation = locations.last!
-        print("Location: \(location)")
+        guard let location: CLLocation = locations.last else {
+            return
+        }
         
-        let zoomLevel = locationManager.accuracyAuthorization == .fullAccuracy ? preciseLocationZoomLevel : approximateLocationZoomLevel
+        let zoomLevel = Settings.preciseLocationZoomLevel
         let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,
                                               longitude: location.coordinate.longitude,
                                               zoom: zoomLevel)
+        
         if mapView == nil {
             mapView = GMSMapView.map(withFrame: mapLayerView.frame, camera: camera)
-            mapView!.delegate = self
+            mapView?.delegate = self
             mapLayerView.addSubview(mapView!)
         }
 
@@ -181,39 +181,29 @@ extension ViewController: CLLocationManagerDelegate {
 
     // Handle authorization for the location manager.
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-      // Check accuracy authorization
-        let accuracy = manager.accuracyAuthorization
-        switch accuracy {
-        case .fullAccuracy:
-            print("Location accuracy is precise.")
-        case .reducedAccuracy:
-            print("Location accuracy is not precise.")
-        @unknown default:
-            fatalError()
-        }
-
-      // Handle authorization status
         switch status {
         case .restricted:
-            print("Location access was restricted.")
+            NotificationPresenter.init().show(.alert, in: self, title: "Location Services Error", message: "Location access was restricted", actions: nil)
+            mapView?.isHidden = false
         case .denied:
-            print("User denied access to location.")
-            // Display the map using the default location.
+            NotificationPresenter.init().show(.alert, in: self, title: "Location Services Error", message: "Location permissions were declined", actions: nil)
             mapView?.isHidden = false
         case .notDetermined:
-            print("Location status not determined.")
+            NotificationPresenter.init().show(.alert, in: self, title: "Location Services Error", message: "Location status not determined", actions: nil)
+            mapView?.isHidden = false
         case .authorizedAlways: fallthrough
         case .authorizedWhenInUse:
             print("Location status is OK.")
         @unknown default:
-            fatalError()
+            NotificationPresenter.init().show(.alert, in: self, title: "Location Services Error", message: "Undetermined error", actions: nil)
+            mapView?.isHidden = false
         }
     }
 
     // Handle location manager errors.
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         locationManager.stopUpdatingLocation()
-        print("Error: \(error)")
+        NotificationPresenter.init().show(.alert, in: self, title: "Location Services Error", message: error.localizedDescription, actions: nil)
     }
 }
 
@@ -239,21 +229,28 @@ extension ViewController: NSFetchedResultsControllerDelegate {
     }
      
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        guard
+            let newIndexPath = newIndexPath,
+            let indexPath = indexPath
+        else {
+            return
+        }
+        
         switch type {
         case .insert:
-            tableView.insertRows(at: [newIndexPath!], with: .fade)
+            tableView.insertRows(at: [newIndexPath], with: .fade)
             if let place = anObject as? FoodPlace {
                 addToMap(place: place)
             }
         case .delete:
-            tableView.deleteRows(at: [indexPath!], with: .fade)
+            tableView.deleteRows(at: [indexPath], with: .fade)
             if let place = anObject as? FoodPlace {
                 removeFromMap(place: place)
             }
         case .update:
-            tableView.reloadRows(at: [indexPath!], with: .fade)
+            tableView.reloadRows(at: [indexPath], with: .fade)
         case .move:
-            tableView.moveRow(at: indexPath!, to: newIndexPath!)
+            tableView.moveRow(at: indexPath, to: newIndexPath)
         @unknown default:
             break
         }
@@ -294,11 +291,10 @@ extension ViewController {
 extension ViewController {
     func openDetailsViewController(with place: FoodPlace) {
         let storyboard = UIStoryboard(name: "FoodPlace", bundle: nil)
-        if let controller = storyboard.instantiateViewController(withIdentifier: "FoodPlaceViewController") as? FoodPlaceViewController {
-            controller.place = place
-            controller.locationManager = self.locationManager
-            
-            self.navigationController?.pushViewController(controller, animated: true)
-        }
+        let controller = storyboard.instantiateViewController(identifier: "FoodPlaceViewController", creator: { coder in
+            return FoodPlaceViewController(coder: coder, place: place)
+        })
+        
+        self.navigationController?.pushViewController(controller, animated: true)
     }
 }

@@ -11,9 +11,10 @@ import CoreLocation
 
 @objc(FoodPlace)
 public class FoodPlace: NSManagedObject {
-
+    static let entityName = "FoodPlace"
+    
     @nonobjc public class func fetchRequest() -> NSFetchRequest<FoodPlace> {
-        return NSFetchRequest<FoodPlace>(entityName: "FoodPlace")
+        return NSFetchRequest<FoodPlace>(entityName: entityName)
     }
 
     @NSManaged public var latitude: Double

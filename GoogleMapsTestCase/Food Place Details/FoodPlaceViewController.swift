@@ -15,36 +15,49 @@ class FoodPlaceViewController: UIViewController {
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var phoneLabel: UILabel!
     
-    var place: FoodPlace?
-    var locationManager: CLLocationManager?
+    var place: FoodPlace
     private var mapView: GMSMapView?
 
+    init?(coder: NSCoder, place: FoodPlace) {
+        self.place = place
+        super.init(coder: coder)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("You must create this view controller with a place.")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = place?.name
+        setupUI()
+        setupMapView()
+    }
+    
+    private func setupUI() {
+        self.title = place.name
         
-        nameLabel.text = place?.name
-        addressLabel.text = place?.address
-        phoneLabel.text = place?.phone
+        nameLabel.text = place.name
+        addressLabel.text = place.address
+        phoneLabel.text = place.phone
+    }
+    
+    private func setupMapView() {
+        let coordinate = place.coordinate()
+        let camera = GMSCameraPosition.camera(withLatitude: coordinate.latitude,
+                                              longitude: coordinate.longitude,
+                                              zoom: Settings.preciseLocationZoomLevel)
+        mapView = GMSMapView.map(withFrame: mapLayerView.bounds, camera: camera)
         
-        if let coordinate = place?.coordinate() {
-            let camera = GMSCameraPosition.camera(withLatitude: coordinate.latitude,
-                                                  longitude: coordinate.longitude,
-                                                  zoom: 14)
-            mapView = GMSMapView.map(withFrame: mapLayerView.bounds, camera: camera)
-            
-            if let mapView = mapView {
-                mapLayerView.addSubview(mapView)
+        if let mapView = mapView {
+            mapLayerView.addSubview(mapView)
 
-                mapView.animate(to: camera)
-                
-                if let position = place?.coordinate() {
-                    let marker = GMSMarker(position: position)
-                    marker.title = place?.name
-                    marker.map = mapView
-                }
-            }
+            mapView.animate(to: camera)
+            
+            let position = place.coordinate()
+            let marker = GMSMarker(position: position)
+            marker.title = place.name
+            marker.map = mapView
         }
     }
     
