@@ -11,7 +11,7 @@ struct NotificationPresenter {
     private let defaultCancelAlert = UIAlertAction.init(title: "Okay", style: .cancel)
 
     func show(_ alert: UIAlertController.Style, in viewController: UIViewController, title: String?, message: String?, actions: [UIAlertAction]?) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: alert)
 
         if let actions = actions {
             actions.forEach { action in
